@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-378@0p7fy7hipwrrsw#k8a)yc7fvvhy@ebg)*=eujc7_nj#vw9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['stockvision-f09fffa81053.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['stockvision.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'sysbodega.urls'
