@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Productos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    body {
+      padding-top: 120px;
+    }
+    .navbar {
+      height: 60px;
+      box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+    }
+    .card {
+      border-radius: 16px;
+      box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar fixed-top navbar-expand-lg bg-primary">
+    <div class="container-fluid bg-primary">
+      <a class="navbar-brand" href="{% url 'home' %}" style="color: #ffffff"><b>STOCK VISION®</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse bg-primary" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if usuario == 'Admin' %}
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false" style="color: #ffffff">Información</a>
+            <ul class="dropdown-menu" style="background-color: #0066ee">
+              <li><a class="dropdown-item" href="{% url 'InfoCuenta' %}" style="color: #ffffff">Información de Cuenta</a></li>
+              <li><a class="dropdown-item" href="{% url 'InfoEmpresa' %}" style="color: #ffffff">Información de Empresa</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'InfoCuenta' %}" style="color: #ffffff">Información de Cuenta</a>
+          </li>
+          {% endif %}
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false" style="color: #ffffff">Productos</a>
+            <ul class="dropdown-menu" style="background-color: #0066ee">
+              <li><a class="dropdown-item" href="{% url 'RegView' %}" style="color: #ffffff">Registrar Nuevo Producto</a></li>
+              <li><a class="dropdown-item" href="{% url 'BuscadorView' %}" style="color: #ffffff">Buscar Producto</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'IngresoProd' %}" style="color: #ffffff">Ingreso de Productos</a></li>
+              <li><a class="dropdown-item" href="{% url 'SalidaProd' %}" style="color: #ffffff">Salida de Productos</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'CategoriasYUbicaciones' %}" style="color: #ffffff">Categorías y Ubicaciones</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'RegistrarInventario' %}" style="color: #ffffff">Inventario</a>
+          </li>
+          {% if usuario == 'Admin' %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'register' %}" style="color: #ffffff">Registrar Usuario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'Informes' %}" style="color: #ffffff">Informes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'VistaHistorial' %}" style="color: #ffffff">Movimientos</a>
+          </li>
+          {% endif %}
+        </ul>
+        <hr style="visibility: hidden">
+        <form class="d-flex" method="post" action="{% url 'BuscarSKU' id_sku=0 %}">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <input name="sku" type="number" class="form-control" type="search" placeholder="Buscar SKU" style="background-color: #ffffff; color: #000000;">
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-outline-light">Buscar</button>
+            </div>
+          </div>
+        </form>
+        <hr style="visibility: hidden">
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-light"><b>Cerrar Sesión</b></button>
+        </form>
+        <hr style="visibility: hidden">
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);">Categorías y Ubicaciones</h1>
+    <hr style="visibility: hidden">
+    <h3>Ingrese Nueva Categoría</h3>
+    <hr style="visibility: hidden">
+
+    <form action="{% url 'RegistrarCategoria' %}" method="POST">
+      {% csrf_token %}
+      <div style="display: flex; flex-direction: column;">
+        <div class="row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="nombrecat-span"><b>Nombre</b></span>
+              <input name="nombrecat" id="nombrecat" type="text" class="form-control" placeholder="Ingrese Nombre"
+                aria-label="nombrecat" aria-describedby="nombrecat-span" required>
+            </div>
+          </div>
+          <div class="col-7">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="descripcioncat-span"><b>Descripción</b></span>
+              <input name="descripcioncat" id="descripcioncat" type="text" class="form-control"
+                placeholder="Ingrese Descripción" aria-label="descripcioncat" aria-describedby="descripcioncat-span"
+                required>
+            </div>
+          </div>
+          <div class="col-1">
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Categorías -->
+    <div class="accordion accordion-flush" id="categorias">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            style="background-color: #f2f2f2" data-bs-target="#flush-collapseOne" aria-expanded="false"
+            aria-controls="flush-collapseOne"><b>Categorías Registradas en Sistema</b></button>
+        </h2>
+        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#categorias">
+          <hr style="visibility: hidden">
+          {% for c in categorias %}
+          <form action="{% url 'ModificarCategoria' %}" method="GET">
+            {% csrf_token %}
+            {% if forloop.counter0|divisibleby:2 %}
+            <div class="row" style="background-color: #f2f2f2;">
+            {% else %}
+            <div class="row" style="background-color: #ffffff;">
+            {% endif %}
+              <div class="col-4">
+                <li>{{ c.nombre }}</li>
+              </div>
+              <div class="col-7">
+                <p>{{ c.descripcion }}</p>
+              </div>
+              <div class="col-1">
+                <input type="hidden" name="idcat" value="{{ c.id_categoria }}">
+                <input type="hidden" name="nombrecat" value="{{ c.nombre }}">
+                <input type="hidden" name="descripcioncat" value="{{ c.descripcion }}">
+                <input type="hidden" name="mensaje" value="Ingrese Nuevos Datos Para la Categoría">
+                <button type="submit" class="btn btn-danger">Modificar</button>
+              </div>
+            </div>
+          </form>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3>Ingrese Nueva Ubicación</h3>
+    <hr style="visibility: hidden">
+
+    <form action="{% url 'RegistrarUbicacion' %}" method="POST">
+      {% csrf_token %}
+      <div style="display: flex; flex-direction: column;">
+        <div class="row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="nombreubi-span"><b>Nombre</b></span>
+              <input name="nombreubi" id="nombreubi" type="text" class="form-control" placeholder="Ingrese Nombre"
+                aria-label="nombreubi" aria-describedby="nombreubi-span" required>
+            </div>
+          </div>
+          <div class="col-7">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="descripcionubi-span"><b>Descripción</b></span>
+              <input name="descripcionubi" id="descripcionubi" type="text" class="form-control"
+                placeholder="Ingrese Descripción" aria-label="descripcionubi" aria-describedby="descripcionubi-span"
+                required>
+            </div>
+          </div>
+          <div class="col-1">
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- Categorías -->
+    <div class="accordion accordion-flush" id="ubicaciones">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            style="background-color: #f2f2f2" data-bs-target="#flush-collapseTwo" aria-expanded="false"
+            aria-controls="flush-collapseTwo"><b>Categorías Registradas en Sistema</b></button>
+        </h2>
+        <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#ubicaciones">
+          <hr style="visibility: hidden">
+          {% for u in ubicaciones %}
+          <form action="{% url 'ModificarUbicacion' %}" method="GET">
+            {% csrf_token %}
+            {% if forloop.counter0|divisibleby:2 %}
+            <div class="row" style="background-color: #f2f2f2;">
+            {% else %}
+            <div class="row" style="background-color: #ffffff;">
+            {% endif %}
+              <div class="col-4">
+                <li>{{ u.nombre }}</li>
+              </div>
+              <div class="col-7">
+                <p>{{ u.descripcion }}</p>
+              </div>
+              <div class="col-1">
+                <input type="hidden" name="idubi" value="{{ u.id_ubicacion }}">
+                <input type="hidden" name="nombreubi" value="{{ u.nombre }}">
+                <input type="hidden" name="descripcionubi" value="{{ u.descripcion }}">
+                <input type="hidden" name="mensaje" value="Ingrese Nuevos Datos Para la Ubicación">
+                <button type="submit" class="btn btn-danger">Modificar</button>
+              </div>
+            </div>
+          </form>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

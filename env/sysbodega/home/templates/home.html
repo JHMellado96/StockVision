@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú Principal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    body {
+      padding-top: 120px;
+    }
+    .navbar {
+      height: 60px;
+      box-shadow: 0 25px 25px rgba(0, 0, 0, 0.25);
+    }
+    .card {
+      border-radius: 16px;
+      box-shadow: 0 8px 8px rgba(0, 0, 0, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+
+  {% if empresa == 'no' %}
+  <!-- CONFIGURACIÓN INICIAL -->
+
+  <nav class="navbar fixed-top navbar-expand-lg bg-primary">
+    <div class="container-fluid bg-primary">
+      <a class="navbar-brand"  style="color: #ffffff"><b>STOCK VISION®</b></a>
+      <div class="collapse navbar-collapse bg-primary" id="navbarSupportedContent"></div>
+    </div>
+  </nav>
+
+  <form action="{% url 'RegInicial' %}" method="POST">
+    {% csrf_token %}
+    <div class="container">
+      <h1 style="text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);">Configuración Inicial</h1>
+      <hr style="visibility: hidden">
+
+      <!-- Información de la empresa -->
+      <h3>Información de la empresa</h3>
+      <hr style="visibility: hidden">
+
+      <div style="display: flex; flex-direction: column;">
+        <div class="row">
+          <div class="col-3">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="rut-span"><b>RUT</b></span>
+              <input name="rut" id="rut" min="0" type="number" class="form-control" placeholder="12345678"
+                aria-label="rut" aria-describedby="rut-span" required>
+            </div>
+          </div>
+          <div class="col-1">
+            <input class="form-control" name="dv" id="dv" type="text" placeholder="K" required>
+          </div>
+          <div class="col-8">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="Nombre-span"><b>Nombre</b></span>
+              <input name="nombre" id="nombre" type="text" class="form-control" placeholder="Nombre de Empresa"
+                aria-label="Nombre" aria-describedby="Nombre-span" required>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="direccion-span"><b>Dirección</b></span>
+              <input name="direccion" id="direccion" type="text" class="form-control"
+                placeholder="Calle #0000, Ciudad, País" aria-label="direccion" aria-describedby="direccion-span"
+                required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Información de la ubicación inicial -->
+      <h3>Definición de ubicación inicial</h3>
+      <hr style="visibility: hidden">
+      <p>Es necesario tener al menos una ubicación definida para comenzar a registrar los productos. La ubicación debe
+        describir un espacio físico en particular dentro de su bodega, por ejemplo, un estante, un rincón o un espacio
+        previamente definido.</p>
+
+      <div style="display: flex; flex-direction: column;">
+        <div class="row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="nombreubicacion-span"><b>Nombre</b></span>
+              <input name="nombreubicacion" id="nombreubicacion" type="text" class="form-control"
+                placeholder="Ingrese Nombre" aria-label="nombreubicacion" aria-describedby="nombreubicacion-span"
+                required>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="descripcionubicacion-span"><b>Descripción</b></span>
+              <input name="descripcionubicacion" id="descripcionubicacion" type="text" class="form-control"
+                placeholder="Breve descripción de la ubicación" aria-label="descripcionubicacion"
+                aria-describedby="descripcionubicacion-span" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Información de la categoría inicial -->
+      <h3>Definición de categoría inicial</h3>
+      <hr style="visibility: hidden">
+      <p>Es necesario tener al menos una categoría definida para asignar a los productos registrados. La categoría debe
+        describir el tipo de producto para que sea más fácil su filtrado, por ejemplo, galletas, bebidas, poleras, etc.
+      </p>
+
+      <div style="display: flex; flex-direction: column;">
+        <div class="row">
+          <div class="col-4">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="nombrecategoria-span"><b>Nombre</b></span>
+              <input name="nombrecategoria" id="nombrecategoria" type="text" class="form-control"
+                placeholder="Ingrese Nombre" aria-label="nombrecategoria" aria-describedby="nombrecategoria-span"
+                required>
+            </div>
+          </div>
+          <div class="col-8">
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="descripcioncategoria-span"><b>Descripción</b></span>
+              <input name="descripcioncategoria" id="descripcioncategoria" type="text" class="form-control"
+                placeholder="Breve descripción de la categoria" aria-label="descripcioncategoria"
+                aria-describedby="descripcioncategoria-span" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="d-grid gap-2 col-4 mx-auto mb-2">
+        <button type="submit" class="btn btn-primary">Guardar Información</button>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="container">
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <div class="d-grid gap-2 col-4 mx-auto mb-2">
+        <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+      </div>
+    </form>
+  </div>
+
+  {% else %}
+  <!-- HOME -->
+
+  <nav class="navbar fixed-top navbar-expand-lg bg-primary">
+    <div class="container-fluid bg-primary">
+      <a class="navbar-brand" href="{% url 'home' %}" style="color: #ffffff"><b>STOCK VISION®</b></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse bg-primary" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if usuario == 'Admin' %}
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false" style="color: #ffffff">Información</a>
+            <ul class="dropdown-menu" style="background-color: #0066ee">
+              <li><a class="dropdown-item" href="{% url 'InfoCuenta' %}" style="color: #ffffff">Información de Cuenta</a></li>
+              <li><a class="dropdown-item" href="{% url 'InfoEmpresa' %}" style="color: #ffffff">Información de Empresa</a></li>
+            </ul>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'InfoCuenta' %}" style="color: #ffffff">Información de Cuenta</a>
+          </li>
+          {% endif %}
+          <li class="nav-item dropdown">
+            <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false" style="color: #ffffff">Productos</a>
+            <ul class="dropdown-menu" style="background-color: #0066ee">
+              <li><a class="dropdown-item" href="{% url 'RegView' %}" style="color: #ffffff">Registrar Nuevo Producto</a></li>
+              <li><a class="dropdown-item" href="{% url 'BuscadorView' %}" style="color: #ffffff">Buscar Producto</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'IngresoProd' %}" style="color: #ffffff">Ingreso de Productos</a></li>
+              <li><a class="dropdown-item" href="{% url 'SalidaProd' %}" style="color: #ffffff">Salida de Productos</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{% url 'CategoriasYUbicaciones' %}" style="color: #ffffff">Categorías y Ubicaciones</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'RegistrarInventario' %}" style="color: #ffffff">Inventario</a>
+          </li>
+          {% if usuario == 'Admin' %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'register' %}" style="color: #ffffff">Registrar Usuario</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'Informes' %}" style="color: #ffffff">Informes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'VistaHistorial' %}" style="color: #ffffff">Movimientos</a>
+          </li>
+          {% endif %}
+        </ul>
+        <hr style="visibility: hidden">
+        <form class="d-flex" method="post" action="{% url 'BuscarSKU' id_sku=0 %}">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col">
+              <input name="sku" type="number" class="form-control" type="search" placeholder="Buscar SKU" style="background-color: #ffffff; color: #000000;">
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-outline-light">Buscar</button>
+            </div>
+          </div>
+        </form>
+        <hr style="visibility: hidden">
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-outline-light"><b>Cerrar Sesión</b></button>
+        </form>
+        <hr style="visibility: hidden">
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="text-shadow: 0px 5px 5px rgba(0, 0, 0, 0.25);">Menú Principal</h1>
+    <hr style="visibility: hidden">
+
+    <div style="display: flex; flex-direction: column;">
+      <div class="row">
+        <div class="col-4">
+          <hr style="visibility: hidden">
+          <hr style="visibility: hidden">
+          <h3 class="text-center">Bienvenido(a)!</h3>
+          <h3 class="text-center">{{ user.username }}</h3>
+          <p class="text-center">{{ user.first_name }} {{ user.last_name }}</p>
+        </div>
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Información Asociada</h5>
+            <p class="card-text">Visualización y modificación de información personal (cuenta) y/o de la empresa.</p>
+            {% if usuario == 'Admin' %}
+            <div class="row">
+              <div class="col">
+                <a href="{% url 'InfoCuenta' %}" class="btn btn-primary d-grid">Cuenta</a>
+              </div>
+              <div class="col">
+                <a href="{% url 'InfoEmpresa' %}" class="btn btn-primary d-grid">Empresa</a>
+              </div>
+            </div>
+            {% else %}
+            <div class="row">
+              <div class="col">
+                <a href="{% url 'InfoCuenta' %}" class="btn btn-primary d-grid">Cuenta</a>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          <div class="card-footer text-body-secondary">{{empresa}}</div>
+        </div>
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Gestión de Productos</h5>
+            <p class="card-text">Registro, búsqueda y modificación de la información asociada a cada producto dentro de
+              la bodega.</p>
+            <div class="row">
+              <div class="col">
+                <a href="{% url 'RegView' %}" class="btn btn-primary d-grid">Registrar Producto</a>
+              </div>
+              <div class="col">
+                <a href="{% url 'BuscadorView' %}" class="btn btn-primary d-grid">Buscar Producto</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-body-secondary">{{productos}} productos registrados</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Ingresos y Salidas</h5>
+            <p class="card-text">Visualización y modificación de información personal asociada a la cuenta o la empresa
+              registrada.</p>
+            <div class="row">
+              <div class="col">
+                <a href="{% url 'IngresoProd' %}" class="btn btn-primary d-grid">Ingresar Productos</a>
+              </div>
+              <div class="col">
+                <a href="{% url 'SalidaProd' %}" class="btn btn-primary d-grid">Retirar Productos</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-body-secondary">{{ingresos}} ingresos y {{salidas}} salidas éste mes</div>
+        </div>
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Categorías y Ubicaciones</h5>
+            <p class="card-text">Registro, visualización y modificación de categorías y ubicaciones para productos.</p>
+            <a href="{% url 'CategoriasYUbicaciones' %}" class="btn btn-primary d-grid">Visualizar Registros</a>
+          </div>
+          <div class="card-footer text-body-secondary">{{categorias}} categorías y {{ubicaciones}} ubicaciones registradas</div>
+        </div>
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Gestión de Inventario</h5>
+            <p class="card-text">Registro de inventario y generación de informe con lo resultados obtenidos del proceso.
+            </p>
+            <a href="{% url 'RegistrarInventario' %}" class="btn btn-primary d-grid">Realizar Inventario</a>
+          </div>
+          <div class="card-footer text-body-secondary">Último inventario: {{inventario}}</div>
+        </div>
+      </div>
+
+      {% if usuario == 'Admin' %}
+      <div class="row">
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Registro de Usuarios</h5>
+            <p class="card-text">Registro de nuevas cuentas de usuarios para trabajadores que accederán al sistema.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary d-grid">Gestionar Usuarios</a>
+          </div>
+          <div class="card-footer text-body-secondary">{{usuarios}} Usuarios creados</div>
+        </div>
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Generación de Informes</h5>
+            <p class="card-text">Visualización y generación de informes específicos relacionados a los movimientos de
+              bodega.</p>
+            <a href="{% url 'Informes' %}" class="btn btn-primary d-grid">Visualizar Informes</a>
+          </div>
+          <div class="card-footer text-body-secondary">5 informes disponibles</div>
+        </div>
+        <div class="card text-center col-4">
+          <div class="card-body">
+            <h5 class="card-title">Historial de Movimientos</h5>
+            <p class="card-text">Visualización de historial de registros de todos los movimientos efectuados en la
+              bodega.</p>
+            <a href="{% url 'VistaHistorial' %}" class="btn btn-primary d-grid">Visualizar Movimientos</a>
+          </div>
+          <div class="card-footer text-body-secondary">{{movimientos}} movimientos realizados éste mes</div>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+  {% endif %}
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>
